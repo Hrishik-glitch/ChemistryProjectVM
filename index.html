@@ -385,6 +385,7 @@ canvas {
 .carousel-item.active {
   display: block;
 }
+.sim-item { margin-bottom:18px; }
 .carousel-btn {
   position: absolute;
   top: 50%;
@@ -395,6 +396,31 @@ canvas {
   padding: 10px;
   cursor: pointer;
 }
+
+/* All-tab category styles */
+.all-factors h3 { color: var(--accent); }
+.all-solutions h3 { color: var(--good); }
+.all-information h3 { color: var(--accent2); }
+.all-other h3 { color: var(--muted); }
+
+.all-card { padding:12px; border:1px solid #e6eef8; border-radius:8px; margin-bottom:8px; }
+.all-card .excerpt { font-size:12px; color:#475569; min-height:40px }
+
+/* Card title colors per category */
+.all-factors .all-card > div:first-child { color: var(--accent); font-weight:800 }
+.all-solutions .all-card > div:first-child { color: var(--good); font-weight:800 }
+.all-information .all-card > div:first-child { color: var(--accent2); font-weight:800 }
+.all-other .all-card > div:first-child { color: var(--muted); font-weight:800 }
+
+/* Category-specific button styles */
+.btn-factors{ background: linear-gradient(180deg,#3b82f6,#0369a1); border:none; color:#fff }
+.btn-solutions{ background: linear-gradient(180deg,#34d399,#16a34a); border:none; color:#fff }
+.btn-information{ background: linear-gradient(180deg,#fa607c,#0284c7); border:none; color:#fff }
+.btn-other{ background: linear-gradient(180deg,#94a3b8,#64748b); border:none; color:#fff }
+
+/* Separator used in Health / Solutions */
+.sep{ border-top:1px solid #e6eef8; margin:12px 0; }
+
 
 /* =====================
    MOBILE
@@ -439,7 +465,7 @@ canvas {
 
 <!-- Introduction -->
 <section id="intro" class="active" aria-labelledby="introTitle">
-  <h2 id="introTitle">Introduction</h2>
+  <h2 id="introTitle">Delhi’s Crisis Deepens: What’s Our Next Move?</h2>
   <article>
     <p>
       Delhi’s air pollution is a complex, multi-source public‑health emergency. During winter months the city commonly records some of the highest urban particulate and gaseous pollutant levels anywhere on Earth, with AQI episodes routinely climbing into the “hazardous” range. Multiple human activities contribute to this burden: combustion from road vehicles and diesel generators, coal-fired power and industrial sources, open burning of municipal and agricultural waste, frequent fires at large landfills, and occasional unsafe handling or disposal of hazardous materials — including rare but serious radioactive scrap incidents. Together these emissions release primary pollutants such as PM2.5, nitrogen dioxide (NO2), sulfur dioxide (SO2), methane, persistent organic toxins (for example, dioxins), and radionuclides.
@@ -473,8 +499,8 @@ canvas {
 
 <!-- All Tab: dynamic index of non-primary sections -->
 <section id="all" aria-labelledby="allTitle">
-  <h2 id="allTitle">All Sections</h2>
-  <p>This view lists all secondary/data sections so you can browse them from one place. Primary tabs (Introduction, Simulations, Tools, Education, Health, Solutions, Sources, Quiz) are excluded.</p>
+  <h2 id="allTitle">Key Factors, Information and Solutions in the Delhi Crisis</h2>
+  <p>This view lists all secondary/data sections so you can browse them from one place. Scroll down to see the sections.</p>
   <div id="allList" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr)); gap:12px; margin-top:12px"></div>
 </section>
 
@@ -516,8 +542,26 @@ canvas {
   </article>
 
   <!-- Pollutant Dispersion Simulator: canvas animation over mini-map -->
-  <div>
-    <h3>1. Pollutant Dispersion Simulator</h3>
+  <!-- Radiation heatmap (moved to top) -->
+  <div class="sim-item">
+    <h3>1. Radiation Heatmap</h3>
+    <p>Illustrates how radioactive contamination would spread from a point source. Adjust parameters to see how wind, decay, and time affect dispersion. Click on the map to set the hotspot.</p>
+    <canvas id="radCanvas" width="560" height="220" style="border-radius:8px;border:1px solid #ddd; cursor: crosshair;"></canvas>
+    <div style="margin-top:8px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
+      <button class="btn" id="radDrawBtn">Draw Heatmap</button>
+      <button class="btn secondary" id="radAnimateBtn">Animate Spread</button>
+      <button class="btn secondary" id="radResetBtn">Reset</button>
+      <label>Wind Dir: <input id="radWindDir" type="range" min="0" max="360" value="0" style="width:80px;"></label>
+      <label>Wind Str: <input id="radWindStrength" type="range" min="0" max="10" value="2" style="width:80px;"></label>
+      <label>Decay: <input id="radDecay" type="range" min="0.1" max="2" step="0.1" value="0.5" style="width:80px;"></label>
+      <span id="radInfo">Radiation levels: Click to set hotspot</span>
+    </div>
+    <div style="margin-top:8px; font-size:12px;">
+      <strong>Legend:</strong> Red: High (>1000 mSv), Yellow: Medium (100-1000 mSv), Green: Low (<100 mSv)
+    </div>
+  </div>
+  <div class="sim-item">
+    <h3>2. Pollutant Dispersion Simulator</h3>
     <p>This interactive simulation demonstrates how pollutants disperse from a point source in Delhi, allowing users to adjust emission strength and observe the spread on a canvas.</p>
     <!-- Mini Delhi map: small base64 SVG placeholder -->
 
@@ -529,8 +573,8 @@ canvas {
   </div>
 
   <!-- Smog Formation Timeline -->
-  <div>
-    <h3>2. Smog Formation Timeline</h3>
+  <div class="sim-item">
+    <h3>3. Smog Formation Timeline</h3>
     <p>This simulation shows how smog formation changes over the course of a day, using a slider to adjust the hour and display the corresponding smog intensity.</p>
 
     <label for="smogSlider">Hour: <span id="smogHour">6</span></label>
@@ -539,8 +583,8 @@ canvas {
   </div>
 
   <!-- AQI Trend Graph (sample data, zoom/pan via simple wheel & drag) -->
-  <div>
-    <h3>3. AQI Trend Graph</h3>
+  <div class="sim-item">
+    <h3>4. AQI Trend Graph</h3>
     <p>This interactive chart visualizes Air Quality Index trends over time, allowing users to zoom with the mouse wheel and pan by dragging to explore the data.</p>
     <canvas id="aqiChart" width="700" height="240" aria-label="AQI trend chart"></canvas>
     <div style="font-size:12px;color:#666">Use mouse wheel to zoom and drag to pan.</div>
@@ -549,8 +593,8 @@ canvas {
  
 
   <!-- Temperature Inversion -->
-  <div>
-    <h3>4. Temperature Inversion</h3>
+  <div class="sim-item">
+    <h3>5. Temperature Inversion</h3>
     <p>This widget visualizes a temperature inversion layer that traps pollutants near the ground. Toggle the inversion to see how trapped emissions increase local concentrations and worsen health risks.</p>
     <div id="inversionViz" style="position:relative; height:140px; border-radius:8px; overflow:hidden; background:linear-gradient(#87ceeb, #cbd5e1)">
       <img alt="Delhi skyline" id="skylineImg" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDYwMCAxMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjYwMCIgaGVpZ2h0PSIxMDAiIGZpbGw9IiNhYWEiLz48dGV4dCB4PSIzMDAiIHk9IjUwIiBmb250LXNpemU9IjE2IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNjY2Ij5EaWxoaSBTa3lsaW5lPC90ZXh0Pjwvc3ZnPg==" style="width:100%; opacity:0.9;">
@@ -561,8 +605,8 @@ canvas {
   </div>
 
   <!-- pH Rain Simulator -->
-  <div>
-    <h3>5. pH Rain Simulator</h3>
+  <div class="sim-item">
+    <h3>6. pH Rain Simulator</h3>
     <p>Estimate rainwater acidity from SO₂ concentrations. This mini-model converts SO₂ inputs into a simplified pH value and shows expected damage to vegetation.</p>
     <label>SO2 ppm: <input id="so2Val" type="number" min="0" max="200" value="10" step="1"></label>
     <button class="btn" id="calcPhBtn">Calc pH</button>
@@ -573,9 +617,9 @@ canvas {
   </div>
 
   <!-- Bioaccumulation (click chain) -->
-  <div>
+  <div class="sim-item">
     <h3>
-      6. Bioaccumulation Chain</h3>
+      7. Bioaccumulation Chain</h3>
     <p>Demonstrates how toxins concentrate up food chains. Click each trophic level to see the multiplicative increase in contaminant concentration from soil → plants → fish → humans.</p>
     <div style="display:flex; gap:12px">
       <button class="btn" data-level="1" onclick="selectBio(this)">Soil</button>
@@ -589,8 +633,8 @@ canvas {
   </div>
 
   <!-- Ozone slider -->
-  <div>
-    <h3>7. Ozone Mini-Model</h3>
+  <div class="sim-item">
+    <h3>8. Ozone Mini-Model</h3>
     <p>Adjust CFC-like emissions to see a simplified ozone response. This demonstrates how increases in precursors can thin protective layers or alter ground-level ozone depending on chemistry.</p>
     <label>CFC level: <input id="cfcLevel" type="range" min="0" max="100" value="0"></label>
     <div id="ozoneStatusTxt" aria-live="polite">Status: Healthy</div>
@@ -618,16 +662,16 @@ canvas {
   </div>
 
   <!-- Methane leak game -->
-  <div>
-    <h3>8. Methane Leak Detector (Game)</h3>
+  <div class="sim-item">
+    <h3>9. Methane Leak Detector (Game)</h3>
     <p>A small interactive game where players click rising methane bubbles from a landfill to 'detect' and stop leaks. Used to teach methane sources and quick mitigation response.</p>
     <canvas id="methaneCanvas" width="480" height="260" style="border-radius:8px;border:1px solid #ddd"></canvas>
     <div style="display:flex; gap:8px; margin-top:8px"><button class="btn" id="startMethaneBtn">Start Game</button><div id="methaneScore">Score: 0</div></div>
   </div>
 
   <!-- Particulate settling jar -->
-  <div>
-    <h3>9. Particulate Settling Jar</h3>
+  <div class="sim-item">
+    <h3>10. Particulate Settling Jar</h3>
     <p>Visualizes how particle size affects settling speed. Choose PM2.5 or PM10 and watch particles settle; useful to discuss respiratory deposition and removal mechanisms.</p>
     <label>Particle: <select id="particleSelect"><option value="2.5">PM2.5</option><option value="10">PM10</option></select></label>
     <button class="btn" id="settleBtn">Animate Settling</button>
@@ -636,34 +680,17 @@ canvas {
   </div>
 
   <!-- VOC steps -->
-  <div>
-    <h3>10. VOC → Ozone Reaction Chain</h3>
+  <div class="sim-item">
+    <h3>11. VOC → Ozone Reaction Chain</h3>
     <p>Step through the photochemical reactions that convert volatile organic compounds (VOCs) and NOx into ozone and smog. Each step explains the chemistry and health implications.</p>
     <div style="display:flex; gap:8px"><button class="btn" onclick="vocStep(1)">1</button><button class="btn" onclick="vocStep(2)">2</button><button class="btn" onclick="vocStep(3)">3</button></div>
     <div id="vocTxt" style="margin-top:8px">Click steps to explain VOC → Ozone → Smog</div>
   </div>
 
-  <!-- Radiation heatmap -->
-  <div>
-    <h3>11. Radiation Heatmap</h3>
-    <p>Illustrates how radioactive contamination would spread from a point source. Adjust parameters to see how wind, decay, and time affect dispersion. Click on the map to set the hotspot.</p>
-    <canvas id="radCanvas" width="560" height="220" style="border-radius:8px;border:1px solid #ddd; cursor: crosshair;"></canvas>
-    <div style="margin-top:8px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
-      <button class="btn" id="radDrawBtn">Draw Heatmap</button>
-      <button class="btn secondary" id="radAnimateBtn">Animate Spread</button>
-      <button class="btn secondary" id="radResetBtn">Reset</button>
-      <label>Wind Dir: <input id="radWindDir" type="range" min="0" max="360" value="0" style="width:80px;"></label>
-      <label>Wind Str: <input id="radWindStrength" type="range" min="0" max="10" value="2" style="width:80px;"></label>
-      <label>Decay: <input id="radDecay" type="range" min="0.1" max="2" step="0.1" value="0.5" style="width:80px;"></label>
-      <span id="radInfo">Radiation levels: Click to set hotspot</span>
-    </div>
-    <div style="margin-top:8px; font-size:12px;">
-      <strong>Legend:</strong> Red: High (>1000 mSv), Yellow: Medium (100-1000 mSv), Green: Low (<100 mSv)
-    </div>
-  </div>
+  
 
   <!-- Green buffer planner (drag trees) -->
-  <div>
+  <div class="sim-item">
     <h3>12. Green Buffer Planner</h3>
     <p>Drag-and-drop planner to place trees and calculate an estimated pollution reduction for local sources. Teaches buffer design and trade-offs of green infrastructure.</p>
     <div id="bufferPlanner" style="width:100%;height:180px;border:1px solid #ccc;border-radius:8px;position:relative; background:#f7f7f7">
@@ -673,7 +700,7 @@ canvas {
   </div>
 
   <!-- Seasonal carousel -->
-  <div>
+  <div class="sim-item">
     <h3>13. Seasonal Pollution Cycle</h3>
     <p>A carousel illustrating seasonal changes (winter smog, monsoon washout). Use this to discuss meteorological drivers and seasonal policy responses.</p>
     <div class="carousel" id="seasonCarousel">
@@ -684,7 +711,7 @@ canvas {
   </div>
 
   <!-- Carbon footprint tracker -->
-  <div>
+  <div class="sim-item">
     <h3>14. Carbon Footprint Tracker</h3>
     <p>Estimate daily CO₂ emissions from travel. Use the footprint estimator to compare behaviors and discuss offsets and mitigation strategies.</p>
     <label>km driven/day: <input id="kmInput" type="number" value="10"></label>
@@ -892,14 +919,18 @@ Short-term: Coughing, eye irritation, headaches. Long-term: Chronic diseases, ca
 <b>Affect:</b> Physical development and learning ability.
 </div>
 
+<div class="sep"></div>
+<h3>AQI Controls</h3>
+<p style="margin-top:4px; color:#475569; font-size:0.95rem;">Set the simulated Air Quality Index (AQI) used by the health tools below. Clicking a button sets the current AQI level and updates calculators and guidance to reflect that air-quality condition.</p>
+
 <button class="btn" onclick="setAQI(50)">Good</button>
 <button class="btn" onclick="setAQI(180)">Poor</button>
 <button class="btn" onclick="setAQI(350)">Severe</button>
 <div id="aqiBox" class="aqi-box">AQI Level</div>
 
 <!-- Symptom Checker -->
-Age: <input type="number" id="ageInput" min="1" max="18">
-AQI Exposure (hours): <input type="number" id="aqiExp" value="8">
+<b>Age:</b> <input type="number" id="ageInput" min="1" max="18">
+<b>AQI Exposure (hours):</b> <input type="number" id="aqiExp" value="8">
 <button class="btn" onclick="checkSymptoms()">Check Symptoms</button>
 <div id="symptomOut"></div>
 
@@ -993,13 +1024,14 @@ Microgreens: Local buffers. PMC 2024 addresses air pollution in India with polic
 <b>Affect:</b> Public health and sustainability.
 </div>
 
+<div class="sep"></div>
+<h3>EV Adoption</h3>
+<p style="margin-top:4px; color:#475569; font-size:0.95rem;">Use the slider to simulate percent electric vehicle (EV) adoption. The visualization and impact estimators (`evViz`) update to show estimated emission reductions as EV penetration increases.</p>
+
 <!-- EV Adoption Impact -->
 <label>% EVs: <input type="range" id="evSlider" min="0" max="100" value="0" oninput="updateEV(this.value)"></label>
 <div id="evViz">Impact Visualization</div>
 
-<!-- Composting Tutorial -->
-<button class="btn" onclick="startCompostAnim()">Start Composting Tutorial</button>
-<div id="compostViz" style="height:200px; background:white; border:1px solid;"></div>
 
 <!-- Future Projections Slider -->
 
@@ -1868,13 +1900,51 @@ document.querySelectorAll("nav button[data-tab]").forEach(b=>{
   const container = document.getElementById('allList');
   if (!container) return;
 
+  // Create four header groups (Factors, Solutions, Information, Other)
+  const groups = {
+    Factors: document.createElement('div'),
+    Solutions: document.createElement('div'),
+    Information: document.createElement('div'),
+    Other: document.createElement('div')
+  };
+
+  Object.keys(groups).forEach(name=>{
+    const grp = groups[name];
+    // give the group a class for styling (all-factors / all-solutions / etc.)
+    grp.className = 'all-group all-' + name.toLowerCase();
+    const h = document.createElement('h3');
+    h.textContent = name;
+    h.style.margin = '6px 0 8px 0';
+    grp.appendChild(h);
+    const list = document.createElement('div');
+    list.className = 'all-group-list';
+    grp.appendChild(list);
+    container.appendChild(grp);
+  });
+
+  // Heuristic mapping of section ids to categories. Unmatched -> Other
+  const categoryMap = {
+    Factors: new Set(['sources','incineration','fossil','landfills','radio','exposure','environment','radiation','ecosystem','policy','policy-alt','casestudies','casestudies-alt','projections','projections-alt']),
+    Solutions: new Set(['microgreens','wasteguide','wasteguide-alt','compost','offset','audit','solutions','recipe','volunteer','greenbuffer','bufferplanner']),
+    Information: new Set(['glossary','health','environment','ecosystem','formulas','formulas-alt','comparison','comparison-alt','education','tools','myths','myths-alt']),
+    Other: new Set([])
+  };
+
   const seenIds = new Set();
   const seenTitles = new Set();
 
+  // Helper: append card to a group's list element
+  function appendCardToGroup(groupName, card){
+    const grp = groups[groupName];
+    if (!grp) return;
+    const list = grp.querySelector('.all-group-list');
+    list.appendChild(card);
+  }
+
+  // Build list of sections and assign to groups
   document.querySelectorAll('main section').forEach(sec=>{
     const id = sec.id;
     if (!id || primary.has(id)) return;
-    // dedupe by id and by normalized title to avoid listing repeats
     if (seenIds.has(id)) return;
     const titleEl = sec.querySelector('h2');
     const title = titleEl ? titleEl.textContent.trim() : id;
@@ -1884,24 +1954,33 @@ document.querySelectorAll("nav button[data-tab]").forEach(b=>{
     seenIds.add(id);
     seenTitles.add(titleKey);
 
-    const card = document.createElement('div');
-    card.style.padding = '12px'; card.style.border = '1px solid #e6eef8'; card.style.borderRadius = '8px';
+    // determine category
+    let placedCategory = 'Other';
+    for (const cat of Object.keys(categoryMap)){
+      if (categoryMap[cat].has(id)){
+        placedCategory = cat;
+        break;
+      }
+    }
+    const catKey = placedCategory.toLowerCase();
+
     const excerpt = (sec.querySelector('p') && sec.querySelector('p').textContent) ? sec.querySelector('p').textContent.trim().slice(0,160) : '';
-    card.innerHTML = `<div style="font-weight:800;margin-bottom:6px">${title}</div><div style="font-size:12px;color:#475569;min-height:40px">${excerpt}${excerpt? '...' : ''}</div><div style="margin-top:8px;text-align:right"><button class="btn" data-target="${id}">Open</button></div>`;
-    container.appendChild(card);
+
+    const card = document.createElement('div');
+    card.className = `all-card all-${catKey}`;
+    card.innerHTML = `<div style="font-weight:800;margin-bottom:6px">${title}</div><div class="excerpt">${excerpt}${excerpt? '...' : ''}</div><div style="margin-top:8px;text-align:right"><button class="btn btn-${catKey}" data-target="${id}">Open</button></div>`;
+
+    appendCardToGroup(placedCategory, card);
   });
+
+  // If a group ended up empty, leave the header only (per request: headers present)
 
   container.addEventListener('click', e=>{
     const btn = e.target.closest('button[data-target]');
     if (!btn) return;
     const target = btn.dataset.target;
-    // Activate nav button if exists
     const navBtn = document.querySelector(`nav button[data-tab="${target}"]`);
-    if (navBtn) {
-      navBtn.click();
-      return;
-    }
-    // Otherwise show target alongside All view (do not duplicate nav state)
+    if (navBtn) { navBtn.click(); return; }
     document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));
     document.querySelectorAll('section').forEach(s=>s.classList.remove('active'));
     document.getElementById('all').classList.add('active');
